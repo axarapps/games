@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Blitz Empire</title>
+<meta name="description" content="Take the table before time runs out. A fast conquest game for up to six players, in your browser. Plays together with the Android app.">
+<meta name="theme-color" content="#0B1018">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:title" content="Blitz Empire">
+<meta property="og:description" content="A fast conquest game for up to six players. Plays together with the Android app.">
+<meta property="og:image" content="https://axarapps.github.io/games/blitzempire/icon.png">
+<meta property="og:url" content="https://axarapps.github.io/games/blitzempire/">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+  html, body { margin: 0; height: 100%; background: #0B1018; overflow: hidden; overscroll-behavior: none; touch-action: none;
+    -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+  #app { position: fixed; inset: 0; }
+  #loading { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+    background: #0B1018; color: #fff; font: 600 15px system-ui, sans-serif; transition: opacity .3s; z-index: 5; }
+  #loading .bar { width: 120px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.2); overflow: hidden; }
+  #loading .bar i { display: block; width: 40%; height: 100%; background: #F2B84B; border-radius: 2px; animation: slide 1s ease-in-out infinite; }
+  #loading p { margin: 0 24px; max-width: 320px; text-align: center; font-weight: 400; opacity: .85; }
+  @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="loading"><div>Blitz Empire</div><div class="bar"><i></i></div></div>
+<script>
+  window.blitz = {
+    ready() { const l = document.getElementById('loading'); if (l) { l.style.opacity = 0; setTimeout(() => l.remove(), 300); } },
+  };
+  function wasmGcSupported() {
+    try { return WebAssembly.validate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 95, 1, 120, 0])); } catch (e) { return false; }
+  }
+  if (!wasmGcSupported()) {
+    const l = document.getElementById('loading');
+    l.querySelector('.bar').remove();
+    const p = document.createElement('p');
+    p.textContent = 'This browser is too old for the game. Please update it (iPhone: iOS 18.2 or newer; Android: the latest Chrome).';
+    l.appendChild(p);
+  } else {
+    const s = document.createElement('script');
+    s.src = 'blitzempire.js';
+    document.head.appendChild(s);
+  }
+</script>
+</body>
+</html>
